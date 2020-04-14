@@ -5,21 +5,23 @@ import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.opentest4j.TestAbortedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static integration.BaseIntegrationTest.browser;
 
 class LogTestNameExtension implements BeforeAllCallback, AfterAllCallback, BeforeEachCallback, AfterEachCallback {
   private static final Logger log = LoggerFactory.getLogger(LogTestNameExtension.class);
 
   @Override
   public void beforeAll(ExtensionContext context) {
-    log.info("Starting {} @ {}", context.getDisplayName(), BaseIntegrationTest.browser);
+    log.info("Starting {} @ {}", context.getDisplayName(), browser);
   }
 
   @Override
   public void afterAll(ExtensionContext context) {
-    log.info("Finished {} @ {} - {}", context.getDisplayName(), BaseIntegrationTest.browser,
-      context.getExecutionException().isPresent() ? "NOK" : "OK");
+    log.info("Finished {} @ {} - {}", context.getDisplayName(), browser, verdict(context));
   }
 
   @Override
@@ -29,6 +31,12 @@ class LogTestNameExtension implements BeforeAllCallback, AfterAllCallback, Befor
 
   @Override
   public void afterEach(ExtensionContext context) {
-    log.info("  finished {} - {}", context.getDisplayName(), context.getExecutionException().isPresent() ? "NOK" : "OK");
+    log.info("  finished {} - {}", context.getDisplayName(), verdict(context));
+  }
+
+  private String verdict(ExtensionContext context) {
+    return context.getExecutionException().isPresent() ?
+      (context.getExecutionException().get() instanceof TestAbortedException ? "skipped" : "NOK") :
+      "OK";
   }
 }
