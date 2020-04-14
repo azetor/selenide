@@ -114,7 +114,7 @@ class SelenideElementProxyTest implements WithAssertions {
     when(webdriver.findElement(By.cssSelector("#firstName"))).thenReturn(null);
     driver.find("#firstName").shouldNotBe(exist);
     driver.find("#firstName").should(disappear);
-    assertThatThrownBy(() -> driver.find("#firstName").shouldNotBe(visible)).isInstanceOf(ElementNotFound.class);
+    driver.find("#firstName").shouldNotBe(visible);
     assertThatThrownBy(() -> driver.find("#firstName").shouldNotBe(enabled)).isInstanceOf(ElementNotFound.class);
     assertThatThrownBy(() -> driver.find("#firstName").shouldNotHave(text("goodbye"))).isInstanceOf(ElementNotFound.class);
   }
@@ -125,7 +125,7 @@ class SelenideElementProxyTest implements WithAssertions {
       .thenThrow(new WebDriverException("element is not found and this is expected"));
     driver.find("#firstName").shouldNot(exist);
     driver.find("#firstName").should(disappear);
-    assertThatThrownBy(() -> driver.find("#firstName").shouldNotBe(visible)).isInstanceOf(ElementNotFound.class);
+    driver.find("#firstName").shouldNotBe(visible);
     assertThatThrownBy(() -> driver.find("#firstName").shouldNotBe(enabled)).isInstanceOf(ElementNotFound.class);
     assertThatThrownBy(() -> driver.find("#firstName").shouldNotHave(text("goodbye"))).isInstanceOf(ElementNotFound.class);
   }

@@ -15,7 +15,7 @@ class VisibleTest {
   @Test
   void negate() {
     assertThat(condition.missingElementSatisfiesCondition()).isFalse();
-    assertThat(condition.negate().missingElementSatisfiesCondition()).isFalse();
+    assertThat(condition.negate().missingElementSatisfiesCondition()).isTrue();
   }
 
   @Test

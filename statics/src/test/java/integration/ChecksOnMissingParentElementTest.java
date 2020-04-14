@@ -24,11 +24,8 @@ public class ChecksOnMissingParentElementTest extends IntegrationTest {
   }
 
   @Test
-  void should_not_be_visible_is_nok() {
-    assertThatThrownBy(() ->
-      $("#abracadabra").find(".magic").shouldNotBe(visible)
-    ).isInstanceOf(ElementNotFound.class)
-      .hasMessageStartingWith("Element not found {#abracadabra}");
+  void should_not_be_visible_is_ok() {
+    $("#abracadabra").find(".magic").shouldNotBe(visible);
   }
 
   @Test
